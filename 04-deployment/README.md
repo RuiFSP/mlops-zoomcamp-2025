@@ -1,77 +1,160 @@
-# 4. Model Deployment
+# NYC Taxi Trip Duration Prediction - Deployment
 
-## 4.1 Three ways of deploying a model
+This project demonstrates how to deploy a machine learning model for taxi trip duration prediction in various ways:
 
-<a href="https://www.youtube.com/watch?v=JMGe4yIoBRA&list=PL3MmuxUbc_hIUISrluw_A7wDSmfOhErJK">
-  <img src="images/thumbnail-4-01.jpg">
-</a>
+1. Batch inference with Docker
+2. Cloud storage integration
+3. Orchestrated workflows with Prefect
 
+## Homework Overview
 
+In this homework, we deployed a ride duration prediction model in batch mode using the NYC Yellow Taxi Trip Records dataset. The main tasks included:
 
-## 4.2 Web-services: Deploying models with Flask and Docker
+- Converting a Jupyter notebook to a production-ready script
+- Parameterizing the script to handle different time periods
+- Dockerizing the application
+- Extending the solution with cloud storage capabilities
+- Using an orchestrator for the batch inference workflow
 
-<a href="https://www.youtube.com/watch?v=D7wfMAdgdF8&list=PL3MmuxUbc_hIUISrluw_A7wDSmfOhErJK">
-  <img src="images/thumbnail-4-02.jpg">
-</a>
+## Project Structure
 
+```
+04-deployment/
+│
+├── src/                  # Core application code
+│   └── scoring.py        # Main scoring script for batch prediction
+│
+├── orchestration/        # Workflow orchestration with Prefect
+│   ├── batch_inference_flow.py  # Prefect flow for batch inference
+│   └── deploy.py         # Deployment script for Prefect
+│
+├── models/               # Model storage
+│   └── model.bin         # Pre-trained model
+│
+├── output/               # Output predictions
+│   └── result_yellow_tripdata_*.parquet
+│
+├── Dockerfile            # Docker configuration for batch inference
+├── requirements.txt      # Core dependencies
+└── requirements_orchestration.txt  # Dependencies for orchestration
+```
 
-[See code here](web-service/)
+## Batch Inference with Docker
 
+### Docker Setup
 
-## 4.3 Web-services: Getting the models from the model registry (MLflow)
+The solution uses a Docker container with a pre-trained model:
 
-<a href="https://www.youtube.com/watch?v=aewOpHSCkqI&list=PL3MmuxUbc_hIUISrluw_A7wDSmfOhErJK">
-  <img src="images/thumbnail-4-03.jpg">
-</a>
+```dockerfile
+FROM agrigorev/zoomcamp-model:mlops-2024-3.10.13-slim
 
+WORKDIR /app
+COPY [ "requirements.txt", "." ]
+RUN pip install -r requirements.txt
 
-[See code here](web-service-mlflow/)
+COPY [ "src/scoring.py", "." ]
 
+ENTRYPOINT [ "python", "scoring.py" ]
+```
 
-## 4.4 (Optional) Streaming: Deploying models with Kinesis and Lambda 
+### Running the Docker Container
 
-<a href="https://www.youtube.com/watch?v=TCqr9HNcrsI&list=PL3MmuxUbc_hIUISrluw_A7wDSmfOhErJK">
-  <img src="images/thumbnail-4-04.jpg">
-</a>
+```bash
+docker build -t taxi-duration-prediction .
+docker run taxi-duration-prediction 2023 05
+```
 
-Note: Since some of the steps in this video requires the use of AWS services which incur some cost on the user, it is optional to code along to this video. However, as material in Module 6 is based on the content of this video, we still highly recommended that you watch it.
+## Cloud Storage Integration
 
-[See code here](streaming/)
+You can extend the solution to upload the prediction results to cloud storage services.
 
+### AWS S3 Integration
 
-## 4.5 Batch: Preparing a scoring script
+```python
+import boto3
+import os
 
-<a href="https://www.youtube.com/watch?v=18Lbaaeigek&list=PL3MmuxUbc_hIUISrluw_A7wDSmfOhErJK">
-  <img src="images/thumbnail-4-05.jpg">
-</a>
+def upload_to_s3(file_path, bucket_name, object_name=None):
+    """Upload a file to an S3 bucket"""
+    if object_name is None:
+        object_name = os.path.basename(file_path)
+        
+    # Create S3 client - credentials should be provided via environment variables
+    s3_client = boto3.client('s3')
+    
+    try:
+        s3_client.upload_file(file_path, bucket_name, object_name)
+        print(f"Successfully uploaded {file_path} to {bucket_name}/{object_name}")
+        return True
+    except Exception as e:
+        print(f"Error uploading to S3: {e}")
+        return False
+```
 
+### Authentication Setup
 
-[See code here](batch/)
+Configure cloud provider authentication:
 
+#### AWS S3
+```bash
+export AWS_ACCESS_KEY_ID=your_access_key
+export AWS_SECRET_ACCESS_KEY=your_secret_key
+export AWS_DEFAULT_REGION=your_region
+```
 
-## 4.6 MLOps Zoomcamp 4.6 - Batch scoring with Mage
+#### Google Cloud Storage
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account-key.json
+```
 
-No video - you already know how to do it:
+#### Azure Blob Storage
+```bash
+export AZURE_STORAGE_CONNECTION_STRING="your_connection_string"
+```
 
-* Connect to MLFlow
-* Create a transformation block
-* Get the model from the registry, apply it
+## Orchestrated Workflow with Prefect
 
+The orchestrated workflow splits the batch inference process into logical steps:
 
-## Homework
+1. **Data download**: Fetch the latest data
+2. **Data preprocessing**: Clean and prepare data for inference
+3. **Model loading**: Load the trained model
+4. **Batch inference**: Run predictions on the dataset
+5. **Result processing**: Format and save the results
+6. **Cloud upload**: Upload results to cloud storage
+7. **Notification**: Inform stakeholders of completion
 
-More information [here](../cohorts/2025/04-deployment/homework.md).
+### Running with Prefect
 
+One-time execution:
+```bash
+python orchestration/batch_inference_flow.py
+```
 
-## Notes
+Scheduled deployment:
+```bash
+# Start Prefect server
+prefect server start
 
-Did you take notes? Add them here:
+# In another terminal, create deployment
+python orchestration/deploy.py
 
-* [Notes on model deployment (+ creating a modeling package) by Ron M.](https://particle1331.github.io/inefficient-networks/notebooks/mlops/04-deployment/notes.html)
-* [Notes on Model Deployment using Google Cloud Platform, by M. Ayoub C.](https://gist.github.com/Qfl3x/de2a9b98a370749a4b17a4c94ef46185)
-* [Week4: Notes on Model Deployment by Bhagabat](https://github.com/BPrasad123/MLOps_Zoomcamp/tree/main/Week4)
-* [Week 4: Deployment notes by Ayoub.B](https://github.com/ayoub-berdeddouch/mlops-journey/blob/main/deployment-04.md)
-* [Week 4: Deployment notes by Waleed](https://github.com/waleedayoub/mlops-zoomcamp/blob/main/cohorts/2023/04-deployment/module4notes.waleed.md)
-* [Week4: Deployment: Offline (Batch), Online (Web service /w MLflow, Streaming) by Hongfan (Amber)](https://github.com/Muhongfan/MLops/blob/main/04-deployment/README.md)
-* [Week 4: Deployment Notes - Marcus](https://github.com/mleiwe/mlops-zoomcamp/blob/NotesBranch/cohorts/2024/04-deployment/Ch4_Notes_ML.md)
-* Send a PR, add your notes above this line
+# Start agent to execute scheduled flows
+prefect agent start
+```
+
+### Customizing the Workflow
+
+You can modify parameters in the `batch_inference_flow.py` script:
+
+```python
+batch_inference(
+    year=2023,
+    month=3,
+    model_path="models/my_model.bin",
+    output_file="custom_results.parquet",
+    upload_to_cloud_storage=True,
+    cloud_provider="gcs",  # or "s3", "azure"
+    bucket_name="my-taxi-predictions"
+)
+```

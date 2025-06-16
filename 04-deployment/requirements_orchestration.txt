@@ -1,0 +1,13 @@
+# Core dependencies
+prefect>=2.0.0
+pandas
+scikit-learn
+pyarrow
+
+# Cloud upload options (uncomment as needed)
+# boto3                # For AWS S3
+# google-cloud-storage # For Google Cloud Storage
+# azure-storage-blob   # For Azure Blob Storage
+
+# Additional utilities
+python-dotenv         # For loading environment variables from .env file
