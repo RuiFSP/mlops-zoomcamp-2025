@@ -27,6 +27,13 @@ MLOps Zoomcamp is a comprehensive course on Machine Learning Operations (MLOps) 
   - Integration of MLflow with Prefect for model tracking
   - Docker containerization for MLflow and Prefect services
 
+- `04-deployment/`
+  - Model deployment strategies
+  - Batch inference with Docker
+  - Cloud storage integration
+  - Orchestrated batch workflow with Prefect
+  - Production-ready code for model scoring
+
 ## Completed Assignments
 
 ### Module 1: Introduction to MLOps
@@ -84,6 +91,25 @@ Tools & Libraries used:
 - scikit-learn for modeling
 - Shell scripts for automation
 
+### Module 4: Model Deployment
+
+In this module, I implemented batch deployment strategies for the NYC taxi trip duration prediction model. The assignment focused on:
+
+- Converting Jupyter notebooks to production-ready Python scripts
+- Building a parameterized batch scoring system for different time periods
+- Containerizing the model with Docker for portable execution
+- Integrating cloud storage options for prediction results (AWS S3, GCS, Azure)
+- Creating an orchestrated batch workflow using Prefect
+- Implementing a complete deployment pipeline from data ingestion to result storage
+- Designing a flexible system that can handle different data sources and output formats
+
+Tools & Libraries used:
+- Docker for containerization
+- Prefect for workflow orchestration
+- Cloud storage SDKs (boto3, google-cloud-storage)
+- pandas for data processing
+- scikit-learn for model inference
+
 ## Setup and Installation
 
 This project uses Python 3.10+ and the following dependencies as defined in the `pyproject.toml` file:
@@ -105,7 +131,6 @@ uv pip install -e .
 ## Future Modules
 
 I'll be adding more modules as I progress through the course:
-- Module 4: Model deployment
 - Module 5: Model monitoring
 - Module 6: Best practices
 
