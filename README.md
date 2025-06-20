@@ -34,6 +34,13 @@ MLOps Zoomcamp is a comprehensive course on Machine Learning Operations (MLOps) 
   - Orchestrated batch workflow with Prefect
   - Production-ready code for model scoring
 
+- `05-monitoring/`
+  - Model monitoring for batch services
+  - PostgreSQL for metrics storage
+  - Grafana for metrics visualization
+  - Evidently AI for data drift detection
+  - Dockerized monitoring stack
+
 ## Completed Assignments
 
 ### Module 1: Introduction to MLOps
@@ -110,6 +117,28 @@ Tools & Libraries used:
 - pandas for data processing
 - scikit-learn for model inference
 
+### Module 5: Model Monitoring
+
+In this module, I implemented a comprehensive monitoring system for ML batch services using NYC Green Taxi data. The assignment involved:
+
+- Setting up a monitoring stack with PostgreSQL, Grafana, and Evidently AI
+- Building a baseline linear regression model for taxi trip duration prediction
+- Implementing data quality metrics including `QuantileValue` for fare_amount and `ValueDrift` for predictions
+- Creating a pipeline to calculate daily metrics for March 2024 data
+- Developing a Prefect-orchestrated workflow for metrics calculation
+- Storing monitoring metrics in a PostgreSQL database
+- Designing custom Grafana dashboards for metric visualization
+- Saving and managing dashboard configurations for reproducibility
+- Containerizing the entire monitoring stack with Docker
+
+Tools & Libraries used:
+- Evidently AI for data quality and model performance monitoring
+- PostgreSQL for metrics storage
+- Grafana for visualization and alerting
+- Docker and Docker Compose for containerization
+- Prefect for workflow orchestration
+- pandas and scikit-learn for data processing and modeling
+
 ## Setup and Installation
 
 This project uses Python 3.10+ and the following dependencies as defined in the `pyproject.toml` file:
@@ -131,7 +160,6 @@ uv pip install -e .
 ## Future Modules
 
 I'll be adding more modules as I progress through the course:
-- Module 5: Model monitoring
 - Module 6: Best practices
 
 ## Contact

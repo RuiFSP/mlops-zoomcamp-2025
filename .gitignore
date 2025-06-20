@@ -24,3 +24,5 @@ wheels/
 03-orchestration/__pycache__
 03-orchestration/data
 03-orchestration/.ipynb_checkpoints
+
+05-monitoring/my_notes
