@@ -157,10 +157,34 @@ uv pip install -e .
 # The dependencies are locked in the uv.lock file for reproducibility
 ```
 
-## Future Modules
+### Module 6: Best Practices
 
-I'll be adding more modules as I progress through the course:
-- Module 6: Best practices
+In this module, I implemented MLOps best practices for the NYC taxi trip duration prediction project. The assignment focused on:
+
+- Setting up unit and integration testing with pytest
+- Implementing code quality checks with GitHub Actions CI/CD
+- Using AWS Lambda for serverless model inference
+- Working with LocalStack for local AWS service testing
+- Implementing infrastructure as code with Terraform
+- Creating Makefile automation for streamlined development workflow
+- Establishing a robust project structure with proper package management
+- Implementing proper environment management and configuration
+- Setting up linting and formatting with isort, black, and pylint
+- Creating comprehensive documentation for the project
+
+Tools & Libraries used:
+- pytest for testing
+- GitHub Actions for CI/CD
+- AWS Lambda and LocalStack
+- Terraform for infrastructure as code
+- Docker and Docker Compose
+- Makefile for workflow automation
+- isort, black, and pylint for code quality
+
+## Future Work
+
+With all modules completed, the only remaining component is:
+- Final Project: Putting all the MLOps practices together in a comprehensive end-to-end solution
 
 ## Contact
 
