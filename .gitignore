@@ -9,6 +9,8 @@ wheels/
 # Virtual environments
 .venv
 
+social_media
+
 02-experiment-tracking/notes
 02-experiment-tracking/output
 02-experiment-tracking/mlruns
