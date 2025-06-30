@@ -41,6 +41,15 @@ MLOps Zoomcamp is a comprehensive course on Machine Learning Operations (MLOps) 
   - Evidently AI for data drift detection
   - Dockerized monitoring stack
 
+- `06-best-practices/`
+  - Unit and integration testing with pytest
+  - CI/CD implementation with GitHub Actions
+  - AWS Lambda for serverless model deployment
+  - LocalStack for local AWS service testing
+  - Infrastructure as code with Terraform
+  - Makefile automation for development workflows
+  - Code quality with isort, black, and pylint
+
 ## Completed Assignments
 
 ### Module 1: Introduction to MLOps
@@ -139,24 +148,6 @@ Tools & Libraries used:
 - Prefect for workflow orchestration
 - pandas and scikit-learn for data processing and modeling
 
-## Setup and Installation
-
-This project uses Python 3.10+ and the following dependencies as defined in the `pyproject.toml` file:
-
-
-The project uses the `uv` package manager for faster dependency resolution and installation:
-
-```bash
-# Create a virtual environment using uv
-uv venv
-source .venv/bin/activate  # On Linux/Mac
-
-# Install dependencies with uv
-uv pip install -e .
-
-# The dependencies are locked in the uv.lock file for reproducibility
-```
-
 ### Module 6: Best Practices
 
 In this module, I implemented MLOps best practices for the NYC taxi trip duration prediction project. The assignment focused on:
@@ -180,6 +171,24 @@ Tools & Libraries used:
 - Docker and Docker Compose
 - Makefile for workflow automation
 - isort, black, and pylint for code quality
+
+## Setup and Installation
+
+This project uses Python 3.10+ and the following dependencies as defined in the `pyproject.toml` file:
+
+
+The project uses the `uv` package manager for faster dependency resolution and installation:
+
+```bash
+# Create a virtual environment using uv
+uv venv
+source .venv/bin/activate  # On Linux/Mac
+
+# Install dependencies with uv
+uv pip install -e .
+
+# The dependencies are locked in the uv.lock file for reproducibility
+```
 
 ## Future Work
 
